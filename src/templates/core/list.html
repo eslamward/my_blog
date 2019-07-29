@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Articles {%endblock%}
+{% block content %}
+
+<div class="page-section blog-page">
+
+			<div class="blog-warp">
+				<div class="blog-track">
+					{% for article in articles %}
+					<div class="blog-post">
+						<div class="blog-thumb set-bg" data-setbg="{% static 'img/blog/1.jpg' %}">
+							<div class="post-date">
+								<h3>10</h3>
+								<span>Dec, ‘18</span>
+							</div>
+						</div>
+						<h2 class="post-title"><a href="{{article.get_absolute_url}}">{{article.title}}</a></h2>
+						<div class="post-metas">
+							<div class="post-meta">{{article.user.username}}</div>|
+							<div class="post-meta">In photography</div>
+						</div>
+						<p> Tags:{% for tag in article.tags.all %} #<a href="{% url 'core:list_by_tag' tag %}" style="color: blue">{{tag}}</a> {%endfor%}</p>
+						<p>{{article.content|truncatewords:30}} </p>
+					</div>
+					{% endfor %}
+					
+
+				</div>
+
+			</div>
+
+		</div>
+		<!-- Page section end-->
+
+{% include "core/paginator.html" with page=articles %}
+{%endblock%}
+

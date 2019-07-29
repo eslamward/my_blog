@@ -1,0 +1,7 @@
+<ul class="main-menu">
+	<li><a style="color:#6d8cbd">Latest Articles</a></li>
+	<hr />
+	{% for article in articles %}
+	<li><a href="{{article.get_absolute_url}}" style="color:#6c9ceb">{{article.title}}</a></li>
+	{% endfor %}
+</ul>

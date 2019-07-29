@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Articles {%endblock%}
+{% block content %}
+
+<div class="page-section blog-page">
+			<div class="blog-warp">
+				<div class="blog-track">
+					<div class="blog-post">
+						<div class="blog-thumb set-bg" data-setbg="{% static 'img/blog/1.jpg' %}">
+							<div class="post-date">
+								<h3>10</h3>
+								<span>Dec, ‘18</span>
+							</div>
+						</div>
+						<h2 class="post-title">{{article.title}}</h2>
+						<div class="post-metas">
+							<div class="post-meta">{{article.user.username}}</div>|
+							<div class="post-meta">In photography</div>
+						</div>
+						<p> Tags:{% for tag in article.tags.all %} #<span style="color: blue">{{tag}}</span> {%endfor%}</p>
+						<p>{{article.content}} </p>
+
+						<table class="table table-striped">
+						  <thead>
+						    <tr>
+						      <th scope="col">#</th>
+						      <th scope="col">
+						      	{% with comments.count as total %}
+						      		{{total}} Comment{{total|pluralize}}
+						      	{%endwith%}
+						      </th>
+						      <th>Date</th>
+						      <th>Person</th>
+
+						    </tr>
+						  </thead>
+						  <tbody>
+						  	{% for comment in comments %}
+						    <tr>
+						      <th scope="row">{{forloop.counter}}</th>
+						      <td>{{comment.content}}</td>
+						      <td>{{comment.created}}</td>
+						      <td>{{comment.user.username}}</td>
+						    </tr>
+						    {%endfor%}
+						  </tbody>
+						</table>
+						<table class="table table-striped">
+						  <thead>
+						    <tr>
+						      <th scope="col">#</th>
+						      <th scope="col">
+						      	Similiar Article
+						      </th>
+						      <th>Date</th>
+						      <th>Person</th>
+
+						    </tr>
+						  </thead>
+						  <tbody>
+						  	{% for article in similar_articles %}
+						    <tr>
+						      <th scope="row">{{forloop.counter}}</th>
+						      <td><a href="{{article.get_absolute_url}}">{{article.title}}</a></td>
+						      <td>{{article.created}}</td>
+						      <td>{{article.user.username}}</td>
+						    </tr>
+						    {%endfor%}
+						  </tbody>
+						</table>
+
+						<form class="contact-form" method="POST">
+								{%csrf_token%}
+								{% for field in form %}
+									{{ field.errors }}
+									{{ field }}
+								{%endfor%}
+								<input type="submit" value="Create Comment">
+
+								<!--<button class="site-btn">Send message</button>
+						-->	</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Page section end-->
+{%endblock%}
